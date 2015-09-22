@@ -223,8 +223,10 @@ public class MongoEmbeddedService extends AbstractEmbeddedService {
     }
 
     private void addAdmin() throws IOException {
+        //see http://stackoverflow.com/questions/23034841/typeerror-occurs-when-trying-to-enable-mongo-db-authentication
+        final String createUserFunctionName = useVersion.name().startsWith("V2_4") ? "addUser" : "createUser";
         final String scriptText = join(
-                format("db.createUser(" +
+                format("db." + createUserFunctionName + "(" +
                                 "{\"user\":\"%s\",\"pwd\":\"%s\"," +
                                 "\"roles\":[" +
                                 "\"root\"," +
